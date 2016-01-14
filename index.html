@@ -1,0 +1,65 @@
+<html>
+  <head>
+    <title>S3 POST Form</title>
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/css/bootstrap.min.css" integrity="sha384-1q8mTJOASx8j1Au+a5WDVnPi2lkFfwwEAa8hDDdjZlpLegxhjVME1fgjWPGmkzs7" crossorigin="anonymous">
+    <link rel="stylesheet" href="style.css">
+   <link type="stylesheet" href="jquery-ui.min.css">
+  </head>
+  <body>
+    <section>
+      <div class="container">
+        <div class="col-sm-12">
+          <h1>S3 Viewer / Upload Portal</h1>
+        </div>
+      </div>
+    </section>
+    <section>
+      <div class="container">
+        <div class="col-sm-6 main-block upload">
+          <h1> Upload to S3</h1>
+          <form action="https://s3-bucket.s3.amazonaws.com/" method="post" enctype="multipart/form-data">
+            <input type="hidden" name="key" value="uploads/${filename}">
+            <input type="hidden" name="AWSAccessKeyId" value="YOUR_AWS_ACCESS_KEY">
+            <input type="hidden" name="acl" value="private">
+            <input type="hidden" name="success_action_redirect" value="http://localhost/">
+            <input type="hidden" name="policy" value="YOUR_POLICY_DOCUMENT_BASE64_ENCODED">
+            <input type="hidden" name="signature" value="YOUR_CALCULATED_SIGNATURE">
+            <input type="hidden" name="Content-Type" value="image/jpeg">
+            <!-- Include any additional input fields here -->
+            <p>File to upload to S3:</p>
+            <input name="file" type="file">
+            <br>
+            <input type="submit" value="Upload File to S3">
+          </form>
+        </div>
+        <div class="col-sm-6 main-block search">
+          <h1>View S3 Data</h1>
+          <div>
+            <h3>Query Settings</h3>
+            <form action="/search" method="get">
+              <input type="text" placeholder="filename..." value=""><br>
+              <input type="datetime"><br>
+              <button class="button" type="submit">Submit</button>
+            </form>
+          </div>
+        </div>
+      </div>
+    </section>
+    <section>
+      <div class="container">
+        <div class="col-sm-12">
+          <h3>Search results for S3 query...</h3>
+          <p class="results">
+            Sorry there are not results to display.
+          </p>
+        </div>
+      </div>
+    </section>
+
+    <!-- placed JS at the bottom to speed up page load times -->
+    <link type="text/javascript" href="https://code.jquery.com/jquery-2.2.0.min.js">
+    <link type="text/javascript" href="jquery-ui.min.js">
+
+  </body>
+</html>

@@ -1,0 +1,17 @@
+.main-block{
+  min-height: 300px;
+  border-width: 2px;
+  margin-bottom: 50px;
+  margin-top: 50px;
+  opacity: 0.9;
+}
+.upload {
+  background-color: #9D9D9D;
+}
+.search {
+  background-color: #337AB7;
+}
+.search .results {
+  background-color: #eee;
+  min-height: 400px;
+}
