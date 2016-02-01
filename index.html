@@ -16,50 +16,91 @@
     </section>
     <section>
       <div class="container">
-        <div class="col-sm-6 main-block upload">
-          <h1> Upload to S3</h1>
+        <div class="col-sm-5 main-block upload">
+          <h2>Upload to S3</h2>
           <form action="https://s3-bucket.s3.amazonaws.com/" method="post" enctype="multipart/form-data">
-            <input type="hidden" name="key" value="uploads/${filename}">
-            <input type="hidden" name="AWSAccessKeyId" value="YOUR_AWS_ACCESS_KEY">
-            <input type="hidden" name="acl" value="private">
-            <input type="hidden" name="success_action_redirect" value="http://localhost/">
-            <input type="hidden" name="policy" value="YOUR_POLICY_DOCUMENT_BASE64_ENCODED">
-            <input type="hidden" name="signature" value="YOUR_CALCULATED_SIGNATURE">
-            <input type="hidden" name="Content-Type" value="image/jpeg">
-            <!-- Include any additional input fields here -->
-            <p>File to upload to S3:</p>
-            <input name="file" type="file">
-            <br>
-            <input type="submit" value="Upload File to S3">
+            <div class="form-group">
+              <div class="row">
+                <div class="col-sm-12">
+                  <label class="form-label">File to upload to S3</label>
+                </div>
+              </div>
+              <div class="row">
+                <div class="col-sm-12">
+                  <input name="file" type="file" class="form-control" required>
+                </div>
+              </div>
+            </div>
+            <div class="form-group">
+              <div class="row">
+                <div class="col-sm-12">
+                  <label class="form-label">S3 Bucket Path</label>
+                </div>
+              </div>
+              <div class="row">
+                <div class="col-sm-9">
+                  <input id="bucketPath" name="bucketPath" type="text" class="form-control" required>
+                </div>
+                <div class="col-sm-3">
+                  <button class="btn btn-sm btn-success" onclick="validatePath()">Validate Path</button>
+                </div>
+              </div>
+            </div>
+            <div class="form-group">
+              <input type="submit" value="Upload File to S3" class="btn btn-warning">
+            </div>
           </form>
         </div>
-        <div class="col-sm-6 main-block search">
-          <h1>View S3 Data</h1>
-          <div>
-            <h3>Query Settings</h3>
-            <form action="/search" method="get">
-              <input type="text" placeholder="filename..." value=""><br>
-              <input type="datetime"><br>
-              <button class="button" type="submit">Submit</button>
-            </form>
-          </div>
+        <div class="col-sm-1"> </div>
+        <div class="col-sm-5 main-block search">
+          <h2>Query S3 Data</h2>
+          <form action="/search" method="get">
+            <div class="form-group">
+              <label class="form-label">File Name</label>
+              <input type="text" value="" class="form-control">
+            </div>
+            <div class="form-group">
+              <div class="row">
+                <div class="col-sm-12">
+                  <label class="form-label">Date Range (Optional)</label>
+                </div>
+              </div>
+              <div class="row">
+                <div class="col-sm-6">
+                  <p>Start Date:</p><input name="startDate" type="date" class="form-control">
+                </div>
+                <div class="col-sm-6">
+                  <p>End Date:</p><input name="endDate" type="date" class="form-control">
+                </div>
+              </div>
+            </div>
+            <div class="form-group">
+              <button class="btn btn-info" type="submit">Submit</button>
+            </div>
+          </form>
         </div>
       </div>
     </section>
     <section>
       <div class="container">
         <div class="col-sm-12">
-          <h3>Search results for S3 query...</h3>
-          <p class="results">
-            Sorry there are no results to display.
-          </p>
+          <h2>Search results for S3 query...</h2>
+           <p class="results">Sorry there are no results to display.</p>
         </div>
       </div>
     </section>
 
     <!-- placed JS at the bottom to speed up page load times -->
-    <link type="text/javascript" href="https://code.jquery.com/jquery-2.2.0.min.js">
-    <link type="text/javascript" href="js/jquery-ui.min.js">
+    <script type="text/javascript" src="http://code.jquery.com/jquery-2.2.0.min.js"></script>
+    <script type="text/javascript" src="http://code.jquery.com/ui/1.12.0-beta.1/jquery-ui.min.js"></script>
+
+    <script type="text/javascript">
+      function validatePath() {
+        path = $('#bucketPath').val();
+        alert("Path: "+path);
+        return false;
+      };
+    </script>
 
   </body>
 </html>

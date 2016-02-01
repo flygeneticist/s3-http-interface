@@ -1,8 +1,8 @@
 .main-block{
   min-height: 300px;
   border-width: 2px;
-  margin-bottom: 50px;
-  margin-top: 50px;
+  margin-bottom: 30px;
+  margin-top: 30px;
   opacity: 0.9;
 }
 .upload {
@@ -13,5 +13,5 @@
 }
 .search .results {
   background-color: #eee;
-  min-height: 400px;
+  min-height: 500px;
 }
