@@ -6,36 +6,50 @@ var port = 8888;
 var http = require('http');
 var express = require('express');
 var app = express();
+var qs = require('querystring');
+var AWS = require('aws-sdk');
+var uuid = require('node-uuid');
+var s3 = new AWS.S3();
+
 app.use(express.static(__dirname + '/views'));
 app.set('view engine', 'jade');
 
-// Load the AWS SDK and UUID
-var AWS = require('aws-sdk');
-var uuid = require('node-uuid');
-
-// Create an S3 client
-var s3 = new AWS.S3();
-
-// Create view routes
-app.get('/', function(req, res) {
-  res.render('index.html');
-});
-
-app.post('/upload', function(req, res) {
-  var params = {  Bucket: 'testBucket',//bucketName,
-                  Key: 'testKey',//keyName,
-                  Body: 'Hello World!'
-                };
-  s3.putObject(params, function(err, data) {
+// APP ROUTES
+app.get('/', function (req, res) {
+  s3.listBuckets(function (err, data) {
     if (err)
-      res.send(err);
-    else
-      res.send("Successfully uploaded data to " + params['Bucket'] + "/" + params['Key']);
+      res.render(err);
   });
-  // res.send('Posted a file to S3!');
+  res.render('index.html', data);
 });
 
-app.get('/search', function(req, res) {
+app.post('/upload', function (req, res) {
+  var body = '';
+
+  req.on('data', function (data) {
+    body += data;
+    // Too much POST data, kill the connection!
+    // 1e6 === 1 * Math.pow(10, 6) === 1 * 1000000 ~~~ 1MB
+    if (body.length > 1e6)
+        req.connection.destroy();
+  });
+
+  req.on('end', function () {
+    var post = qs.parse(body);
+    var params = {  Bucket: post['bucketPath'],
+                    Key: post['fileKey.name'],
+                    Body: post['fileKey.data'] //stream
+                  };
+    s3.putObject(params, function (err, data) {
+      if (err)
+        res.send(err);
+      else
+        res.send("Successfully uploaded data to " + params['Bucket'] + "/" + params['Key']);
+    });
+  });
+});
+
+app.get('/search', function (req, res) {
   res.send('You searching in the wrong place foo.')
 });
 
