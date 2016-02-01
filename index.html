@@ -42,7 +42,7 @@
                   <input id="bucketPath" name="bucketPath" type="text" class="form-control" required>
                 </div>
                 <div class="col-sm-3">
-                  <button class="btn btn-sm btn-success" onclick="validatePath()">Validate Path</button>
+                  <button class="btn btn-sm btn-success" onclick="validatePath(); return false;">Validate Path</button>
                 </div>
               </div>
             </div>
@@ -98,7 +98,6 @@
       function validatePath() {
         path = $('#bucketPath').val();
         alert("Path: "+path);
-        return false;
       };
     </script>
 
