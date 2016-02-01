@@ -4,12 +4,14 @@
   "description": "Simple HTTP to S3 portal to streamline uploads, downloads, and searches of AWS S3 buckets without the AWS console.",
   "author": "Kevin Keller <flygeneticist@gmail.com>",
   "repository": {
-  "type": "git",
-  "url": "https://github.com/flygeneticist/s3-http-interface"
-},
+    "type": "git",
+    "url": "https://github.com/flygeneticist/s3-http-interface"
+  },
   "bugs": {
-  "url": "https://github.com/flygeneticist/s3-http-interface/issues"
-},
+    "url": "https://github.com/flygeneticist/s3-http-interface/issues"
+  },
   "keywords": [],
-  "dependencies": {}
+  "dependencies": {
+    "ejs": "^2.4.1"
+  }
 }
