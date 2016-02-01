@@ -21,7 +21,7 @@ app.get('/', function(req, res) {
   res.render('index.html');
 });
 
-app.post('/', function(req, res) {
+app.post('/upload', function(req, res) {
   var params = {  Bucket: 'testBucket',//bucketName,
                   Key: 'testKey',//keyName,
                   Body: 'Hello World!'
@@ -33,6 +33,10 @@ app.post('/', function(req, res) {
       res.send("Successfully uploaded data to " + params['Bucket'] + "/" + params['Key']);
   });
   // res.send('Posted a file to S3!');
+});
+
+app.get('/search', function(req, res) {
+  res.send('You searching in the wrong place foo.')
 });
 
 // Start up the node server
