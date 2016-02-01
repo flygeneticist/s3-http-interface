@@ -21,6 +21,20 @@ app.get('/', function(req, res) {
   res.render('index.html');
 });
 
+app.post('/', function(req, res) {
+  var params = {  Bucket: 'testBucket',//bucketName,
+                  Key: 'testKey',//keyName,
+                  Body: 'Hello World!'
+                };
+  s3.putObject(params, function(err, data) {
+    if (err)
+      res.send(err);
+    else
+      res.send("Successfully uploaded data to " + params['Bucket'] + "/" + params['Key']);
+  });
+  // res.send('Posted a file to S3!');
+});
+
 // Start up the node server
 app.listen(port, host, function (){
   console.log('Server running at http://'+host+':'+port+'/');
