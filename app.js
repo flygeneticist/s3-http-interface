@@ -31,7 +31,7 @@ app.get('/', function (req, res) {
 });
 
 // upload files to S3
-app.post('/upload', function (req, res) {
+app.post('/', function (req, res) {
   var body = '';
 
   req.on('data', function (data) {
@@ -48,13 +48,12 @@ app.post('/upload', function (req, res) {
                     Key: post.fileKey,
                     Body: post.fileKey //stream
                   };
-    res.send(post);
-    // s3.putObject(params, function (err, data) {
-    //   if (err)
-    //     res.send(err);
-    //   else
-    //     res.send("Successfully uploaded data to " + params['Bucket'] + "/" + params['Key']);
-    // });
+    s3.putObject(params, function (err, data) {
+      if (err)
+        res.render(err);
+      else
+        res.render('upload', { bucket: params['Bucket'], key: params['Key'] });
+    });
   });
 });
 
