@@ -12,14 +12,14 @@
           <tr>
             <th>Key Name</th>
             <th>Last Modified</th>
-            <th>Download</th>
+            <th>Download Links<br>(Expires in 5 minutes!)</th>
           </tr>
           {{#if results}}
             {{#each results.Versions}}
               <tr>
                 <td>{{ Key }}</td>
                 <td>{{ LastModified }}</td>
-                <td><a href="https://s3.amazonaws.com/{{ Key }}">link</a></td>
+                <td><a href="{{ url }}"><button class="btn btn-danger btn-sm">Download</button></a></td>
               </tr>
             {{/each}}
           {{else}}
@@ -33,5 +33,3 @@
     </div>
   </div>
 </section>
-
-
