@@ -1,0 +1,37 @@
+<section>
+  <div class="container">
+    <div class="col-sm-12">
+      <h2>Search results</h2>
+      <p>
+        <u>Bucket Name:</u> {{ bucket }}<br>
+        <u>Prefix Query:</u> {{ prefix }}<br>
+        <u>File Name:</u> {{ file }}<br>
+      </p>
+      <br>
+        <table class="table table-condensed">
+          <tr>
+            <th>Key Name</th>
+            <th>Last Modified</th>
+            <th>Download</th>
+          </tr>
+          {{#if results}}
+            {{#each results.Versions}}
+              <tr>
+                <td>{{ Key }}</td>
+                <td>{{ LastModified }}</td>
+                <td><a href="https://s3.amazonaws.com/{{ Key }}">link</a></td>
+              </tr>
+            {{/each}}
+          {{else}}
+            <tr>
+              <td>Sorry there are no results to display...</td>
+              <td> </td>
+              <td> </td>
+            </tr>
+          {{/if}}
+      </table>
+    </div>
+  </div>
+</section>
+
+

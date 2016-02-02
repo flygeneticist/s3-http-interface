@@ -1,107 +1,80 @@
+<section>
+  <div class="container">
+    <div class="col-sm-5 main-block upload">
+      <h2>Upload to S3</h2>
+      <form action="/upload" method="post" enctype="multipart/form-data">
+        <div class="form-group">
+          <label class="form-label">S3 Bucket</label>
+          <select id="bucketName" name="bucketName" type="select" class="form-control" required>
+            {{#each buckets.Buckets}}
+              <option value="{{ Name }}">{{ Name }}</option>
+            {{/each}}
+          </select>
+        </div>
+        <div class="form-group">
+          <div class="row">
+            <div class="col-sm-12">
+              <label class="form-label">S3 Key Name</label>
+              <input id="keyName" name="keyName" type="text" class="form-control" required>
+            </div>
+          </div>
+        </div>
+        <div class="form-group">
+          <div class="row">
+            <div class="col-sm-12">
+              <label class="form-label">File to upload</label>
+              <input id="fileBlob" name="fileBlob" type="file" class="form-control" required>
+            </div>
+          </div>
+        </div>
+        <div class="form-group">
+          <input type="submit" value="Upload" class="btn btn-danger">
+        </div>
+      </form>
+    </div>
+    <div class="col-sm-1"> </div>
+    <div class="col-sm-5 main-block search">
+      <h2>Search S3</h2>
+      <form action="/search" method="get">
+        <div class="form-group">
+          <label class="form-label">S3 Bucket (Required)</label>
+          <select type="select" class="form-control" id="bucketName" name="bucketName" required>
+            {{#each buckets.Buckets}}
+              <option value="{{ Name }}">{{ Name }}</option>
+            {{/each}}
+          </select>
+        </div>
+         <div class="form-group">
+          <label class="form-label">Prefix Path (Optional)</label>
+          <input id="prefixPath" name="prefixPath" type="text" class="form-control" value="">
+        </div>
+        <div class="form-group">
+          <label class="form-label">File Name (Optional)</label>
+          <input id="keyName" name="keyName" type="text" class="form-control" value="">
+        </div>
+        <div class="form-group">
+          <div class="row">
+            <div class="col-sm-12">
+              <label class="form-label">Date Range (Optional)</label>
+            </div>
+          </div>
+          <div class="row">
+            <div class="col-sm-6">
+              <p>Start Date:</p><input id="startDate" name="startDate" type="date" class="form-control">
+            </div>
+            <div class="col-sm-6">
+              <p>End Date:</p><input id="endDate" name="endDate" type="date" class="form-control">
+            </div>
+          </div>
+        </div>
+        <div class="form-group">
+          <button class="btn btn-info" type="submit">Search</button>
+        </div>
+      </form>
+    </div>
+  </div>
+</section>
 
-    <section>
-      <div class="container">
-        <div class="col-sm-12">
-          <h1>S3 Viewer / Upload Portal</h1>
-        </div>
-      </div>
-    </section>
-    <section>
-      <div class="container">
-        <div class="col-sm-5 main-block upload">
-          <h2>Upload to S3</h2>
-          <form action="/upload" method="post" enctype="multipart/form-data">
-            <div class="form-group">
-              <label class="form-label">S3 Bucket</label>
-              <select type="select" class="form-control" required>
-                {{#each buckets.Buckets}}
-                  <option id="{{ Name }}" name="{{ Name }}" value="{{ Name }}">{{ Name }}</option>
-                {{/each}}
-              </select>
-            </div>
-            <div class="form-group">
-              <div class="row">
-                <div class="col-sm-12">
-                  <label class="form-label">S3 Key Name</label>
-                </div>
-              </div>
-              <div class="row">
-                <div class="col-sm-12">
-                  <input id="bucketPath" name="bucketPath" type="text" class="form-control" required>
-                </div>
-              </div>
-            </div>
-            <div class="form-group">
-              <div class="row">
-                <div class="col-sm-12">
-                  <label class="form-label">File to upload</label>
-                </div>
-              </div>
-              <div class="row">
-                <div class="col-sm-12">
-                  <input id="fileKey" name="fileKey" type="file" class="form-control" required>
-                </div>
-              </div>
-            </div>
-            <div class="form-group">
-              <input type="submit" value="Upload File to S3" class="btn btn-danger">
-            </div>
-          </form>
-        </div>
-        <div class="col-sm-1"> </div>
-        <div class="col-sm-5 main-block search">
-          <h2>Search S3</h2>
-          <form action="/search" method="get">
-            <div class="form-group">
-              <label class="form-label">S3 Bucket (Required)</label>
-              <select type="select" class="form-control" required>
-                {{#each buckets.Buckets}}
-                  <option id="{{ Name }}" name="{{ Name }}" value="{{ Name }}">{{ Name }}</option>
-                {{/each}}
-              </select>
-            </div>
-            <div class="form-group">
-              <label class="form-label">S3 Key Name (Required)</label>
-              <input type="text" value="" class="form-control" required>
-            </div>
-            <div class="form-group">
-              <div class="row">
-                <div class="col-sm-12">
-                  <label class="form-label">Date Range (Optional)</label>
-                </div>
-              </div>
-              <div class="row">
-                <div class="col-sm-6">
-                  <p>Start Date:</p><input name="startDate" type="date" class="form-control">
-                </div>
-                <div class="col-sm-6">
-                  <p>End Date:</p><input name="endDate" type="date" class="form-control">
-                </div>
-              </div>
-            </div>
-            <div class="form-group">
-              <button class="btn btn-info" type="submit">Search S3</button>
-            </div>
-          </form>
-        </div>
-      </div>
-    </section>
-    <section>
-      <div class="container">
-        <div class="col-sm-12">
-          <h2>Search results for S3 query...</h2>
-           <p class="results">Sorry there are no results to display.</p>
-        </div>
-      </div>
-    </section>
-
-    <!-- placed JS at the bottom to speed up page load times -->
-    <script type="text/javascript" src="http://code.jquery.com/jquery-2.2.0.min.js"></script>
-    <script type="text/javascript" src="http://code.jquery.com/ui/1.12.0-beta.1/jquery-ui.min.js"></script>
-
-    <script type="text/javascript">
-      function validatePath() {
-        var path = $('#bucketPath').val();
-        alert("Path: "+path);
-      };
-    </script>
+<!-- placed JS at the bottom to speed up page load times -->
+<script type="text/javascript" src="http://code.jquery.com/jquery-2.2.0.min.js"></script>
+<script type="text/javascript" src="http://code.jquery.com/ui/1.12.0-beta.1/jquery-ui.min.js"></script>
