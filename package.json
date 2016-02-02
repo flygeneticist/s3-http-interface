@@ -24,6 +24,8 @@
     "aws-sdk": "^2.2.33",
     "express": "^4.13.4",
     "express-handlebars": "^3.0.0",
+    "handlebars": "^4.0.5",
+    "handlebars-intl": "^1.1.2",
     "multiparty": "^4.1.2",
     "node-uuid": "^1.4.7"
   }
