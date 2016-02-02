@@ -1,18 +1,34 @@
 {
-  "name": "S3-HTTP Interface Portal",
-  "version": "0.0.1",
-  "description": "Simple HTTP to S3 portal to streamline uploads, downloads, and searches of AWS S3 buckets without the AWS console.",
-  "author": "Kevin Keller <flygeneticist@gmail.com>",
+  "name": "s3-http-interface",
+  "version": "0.0.2",
+  "description": "Web Interface for AWS S3 buckets download/upload and querying.",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
   "repository": {
     "type": "git",
-    "url": "https://github.com/flygeneticist/s3-http-interface"
+    "url": "git+https://github.com/flygeneticist/s3-http-interface.git"
   },
+  "keywords": [
+    "AWS",
+    "S3",
+    "Web",
+    "interface",
+    "for",
+    "S3"
+  ],
+  "author": "Kevin Keller",
+  "license": "ISC",
   "bugs": {
     "url": "https://github.com/flygeneticist/s3-http-interface/issues"
   },
-  "keywords": [],
+  "homepage": "https://github.com/flygeneticist/s3-http-interface#readme",
   "dependencies": {
-    "ejs": "^2.4.1",
+    "aws-sdk": "^2.2.33",
+    "express": "^4.13.4",
+    "express-handlebars": "^3.0.0",
+    "jade": "^1.11.0",
     "node-uuid": "^1.4.7"
   }
 }
