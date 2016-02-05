@@ -38,37 +38,36 @@ app.get('/', function (req, res) {
 });
 
 // upload files to S3
-app.post('/', function (req, res) {
+app.post('/upload', function (req, res) {
   var form = new multiparty.Form();
   var keyName;
   var bucketName;
   form.on('field', function(name, value) {
     if (name === 'bucketName') {
-      keyName = value;
-    } else if (name === 'keyName') {
       bucketName = value;
+    } else if (name === 'keyName') {
+      keyName = value;
     }
   });
   form.on('part', function(part) {
-    s3.putObject({
+    params = {
       Bucket: bucketName,
       Key: keyName,
-      ACL: 'public-read',
       Body: part,
       ContentLength: part.byteCount,
-    }, function(err, data) {
+    }
+    s3.putObject(params, function(err, data) {
       if (err) {
-        console.log(err);
-        res.render('500');
+        console.log(err, "\nParams:\n", params);
+        res.end('500');
       } else {
-        console.log("done", data);
+        console.log("done - https://s3.amazonaws.com/" + bucketName + '/' + keyName, data);
         res.end("OK");
-        console.log("https://s3.amazonaws.com/" + bucket + '/' + destPath);
       }
     });
   });
   form.parse(req);
-  res.render('upload', { bucket: bucketName, key: keyName });
+  res.render('upload', bucketName, keyName);
 });
 
 // get search results from S3
@@ -92,8 +91,7 @@ app.get('/search', function (req, res) {
       if (req.query.endDate) {
         end = new Date(req.query.endDate);
       }
-
-      // attach temp signedURL for all remaining files
+      // remove all files that do not meet criteria
       for (i = 0; i < data.Versions.length; i++) {
         version = data.Versions[i];
         // remove invalid items based on given dates
@@ -111,7 +109,6 @@ app.get('/search', function (req, res) {
           data.Versions.splice(i, 1);
           i--;
         }
-
         else {
           // generate a temporary signed URL for downloading
           var signedUrl = s3.getSignedUrl('getObject', { Bucket: req.query.bucketName, Key: version.Key, Expires: 60 });
