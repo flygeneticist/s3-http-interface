@@ -10,7 +10,7 @@ var app = express();
 // set up handlebars view engine
 var handlebars = require('express-handlebars').create({
   defaultLayout:'main',
-  helpers: { dateFormater: function (d) { return new Date(d).toString('MM-dd-yy'); }}
+  helpers: { dateFormater: function (d) { return new Date(d).toString('MM-dd-yy').slice(0,15); }}
 });
 app.engine('handlebars', handlebars.engine);
 app.set('view engine', 'handlebars');
@@ -73,8 +73,7 @@ app.post('/upload', function (req, res) {
 // get search results from S3
 app.get('/search', function (req, res) {
   var params = {
-    Bucket: req.query.bucketName, /* required */
-    MaxKeys: 10,
+    Bucket: req.query.bucketName, // required
     Prefix: req.query.prefixPath
   };
   s3.listObjectVersions(params, function(err, data) {
@@ -94,30 +93,32 @@ app.get('/search', function (req, res) {
       // remove all files that do not meet criteria
       for (i = 0; i < data.Versions.length; i++) {
         version = data.Versions[i];
-        // remove invalid items based on given dates
-        if (version.LastModified < start || version.LastModified > end) {
-          data.Versions.splice(i, 1);
-          i--;
+        if (version) {
+          // remove invalid items based on given dates
+          if (version.LastModified < start || version.LastModified > end) {
+            data.Versions.splice(i, 1);
+            i--;
+          }
+          // remove invalid items based on given key name
+          if (req.query.searchString != '' && version.Key.indexOf(req.query.searchString) == -1) {
+            data.Versions.splice(i, 1);
+            i--;
+          }
+          // remove invalid folder items based on trailing slash in key name
+          if (version.Key.slice(-1) == "/") {
+            data.Versions.splice(i, 1);
+            i--;
+          }
         }
-        // remove invalid items based on given key name
-        else if (req.query.keyName != '' && version.Key.indexOf(req.query.keyName) < 0) {
-          data.Versions.splice(i, 1);
-          i--;
-        }
-        // remove invalid folder items based on trailing slash in key name
-        else if (version.Key.slice(-1) == "/") {
-          data.Versions.splice(i, 1);
-          i--;
-        }
-        else {
-          // generate a temporary signed URL for downloading
-          var signedUrl = s3.getSignedUrl('getObject', { Bucket: req.query.bucketName, Key: version.Key, Expires: 60 });
-          data.Versions[i]['url'] = signedUrl;
-        }
+      }
+      // generate a temporary signed URL for downloading
+      for (i = 0; i < data.Versions.length; i++) {
+        var signedUrl = s3.getSignedUrl('getObject', { Bucket: req.query.bucketName, Key: version.Key, Expires: 60 });
+        data.Versions[i]['url'] = signedUrl;
       }
       res.render('search', {bucket: req.query.bucketName,
                             prefix: req.query.prefixPath,
-                            file: req.query.keyName,
+                            search: req.query.searchString,
                             results: data});
     }
   });

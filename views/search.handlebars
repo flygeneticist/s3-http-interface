@@ -1,18 +1,29 @@
 <section>
   <div class="container">
-    <div class="col-sm-12">
-      <h2>Search results</h2>
-      <p>
-        <u>Bucket Name:</u> {{ bucket }}<br>
-        <u>Prefix Query:</u> {{ prefix }}<br>
-        <u>File Name:</u> {{ file }}<br>
-      </p>
-      <br>
+    <div class="row">
+      <div class="col-sm-12">
+        <h2>Search results</h2>
+      </div>
+    </div>
+    <div class="row">
+      <div class="col-sm-10">
+        <p>
+          <u>Bucket Name:</u> {{ bucket }}<br>
+          <u>Prefix path:</u> {{ prefix }}</br>
+          <u>Search term:</u> {{ search }}<br>
+        </p>
+      </div>
+      <div class="col-sm-2">
+        <a href="/"><button class="btn btn-sm btn-primary">New Search</button></a>
+      </div>
+    </div>
+    <div class="row">
+      <div class="col-sm-12">
         <table class="table table-condensed">
           <tr>
             <th>Key Name</th>
             <th>Last Modified</th>
-            <th>Downloads<br>(Expire in 5 minutes)</th>
+            <th> </th>
           </tr>
           {{#if results}}
             {{#each results.Versions}}
@@ -29,7 +40,8 @@
               <td> </td>
             </tr>
           {{/if}}
-      </table>
+        </table>
+      </div>
     </div>
   </div>
 </section>
